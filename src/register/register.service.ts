@@ -1,10 +1,9 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-// import { ScUserAgreeDto } from 'src/users/dto/sc_user_agree.dto';
-// import { ScUserPushTokenDto } from 'src/users/dto/sc_user_pushtoken.dto';
-import { resourceLimits } from 'worker_threads';
 import { CreateRegisterDto } from './dto/create-register.dto';
+import { ScUserAgreeDto } from './dto/sc_user_agree.dto';
+import { ScUserPushTokenDto } from './dto/sc_user_pushtoken.dto';
 import { UpdateRegisterDto } from './dto/update-register.dto';
 import { ScUserAgree } from './entities/sc_user_agree';
 import { ScUserMarketingPush } from './entities/sc_user_marketing_push';
@@ -25,7 +24,7 @@ export class RegisterService {
   ) { }
 
 
-  async create(createRegisterDto, scUserPushToken, agreeArray) {
+  async create(createRegisterDto: CreateRegisterDto, scUserPushToken: ScUserPushTokenDto, agreeArray: ScUserAgreeDto) {
     const session = await this.connection.startSession();
 
     await session.withTransaction(async () => {

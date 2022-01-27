@@ -5,7 +5,7 @@ import { Response } from 'express';
 import { URLSearchParams } from 'url';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('카카오 인증1')
+@ApiTags('카카오 인증')
 @Controller('login')
 export class LoginController {
     constructor(private readonly loginService: LoginService) { }
