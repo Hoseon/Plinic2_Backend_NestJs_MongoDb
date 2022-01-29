@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { CreateRegisterDto } from './dto/create-register.dto';
@@ -39,10 +39,17 @@ export class RegisterService {
       }
       const newUser = new this.userModel(createRegisterDto);
       const result = await newUser.save();
+        // .then(() => { }, () => { });
       if (result.uid === null) {
         throw new NotFoundException();
-        
       }
+      if (result.gender === null) { 
+        throw new BadRequestException();
+      }
+      if (result.birthDay === null) { 
+        throw new BadRequestException();
+      }
+
       const newToken = new this.sc_user_pushtoken_Model(scUserPushToken);
       const pushResult = await newToken.save();
       const agree = new this.sc_user_agree(agreeArray);
