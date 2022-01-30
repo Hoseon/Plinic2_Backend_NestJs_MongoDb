@@ -49,7 +49,7 @@ export class RegisterService {
       if (result.birthDay === null) { 
         throw new BadRequestException();
       }
-
+      
       const newToken = new this.sc_user_pushtoken_Model(scUserPushToken);
       const pushResult = await newToken.save();
       const agree = new this.sc_user_agree(agreeArray);

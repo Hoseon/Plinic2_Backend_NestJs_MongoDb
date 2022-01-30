@@ -5,7 +5,7 @@ export const ScUserMarketingPushSchema = new mongoose.Schema({
     uid: {
         type: String,
         required: true,
-        ref: 'user'
+        ref: 'User'
     },
     useYN: {
         type: Boolean
