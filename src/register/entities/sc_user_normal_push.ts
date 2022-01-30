@@ -3,11 +3,13 @@ import * as timeZone from 'mongoose-timezone';
 
 export const ScUserNormalPushSchema = new mongoose.Schema({
     uid: {
-        type: String
+        type: String,
+        required: true,
+        ref: 'user'
     },
     useYN: {
         type: Boolean
-    }
+    },
 }, {timestamps: true});
 
 ScUserNormalPushSchema.plugin(timeZone);
