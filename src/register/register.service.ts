@@ -32,46 +32,65 @@ export class RegisterService {
       if (findResult.length >= 1) {
         throw new ConflictException('사용자 uid 존재함');
       }
+      console.log('111111111111111');
 
       const findEmail = await this.userModel.find({ email: createRegisterDto.email });
       if (findEmail.length >= 1) {
         throw new ConflictException('사용자 email 존재함');
       }
+      console.log('222222222222222');
       const newUser = new this.userModel(createRegisterDto);
       const result = await newUser.save();
         // .then(() => { }, () => { });
+      console.log('33333333333333333');
       if (result.uid === null) {
         throw new NotFoundException();
       }
+      console.log('44444444444444');
       if (result.gender === null) { 
         throw new BadRequestException();
       }
+      console.log('555555555555555');
       if (result.birthDay === null) { 
         throw new BadRequestException();
       }
+      console.log('66666666666666');
       
       const newToken = new this.sc_user_pushtoken_Model(scUserPushToken);
+      console.log('777777777777777');
       const pushResult = await newToken.save();
+      console.log('888888888888888');
+
       const agree = new this.sc_user_agree(agreeArray);
+      console.log('99999999999999');
+
       const agreeResul = await agree.save();
+      console.log('10000000000000');
+
       
 
       if (agree.opt_agree5 === false) {
         
         const marketPushResult = new this.sc_user_marketing_push({uid: result.uid, useYN: false});
         await marketPushResult.save();
+      console.log('11 11 11 11 11 11 11');
+
       } else {
         const marketPushResult = new this.sc_user_marketing_push({uid: result.uid, useYN: true});
         await marketPushResult.save();
+        console.log('12 12 12 12 12 12 12 ');
       }
 
       const normalPushResult = new this.sc_user_normal_push({ uid: result.uid, useYN: true })
       const resultPush = await normalPushResult.save();
+      console.log('13 13 13 13 13 13 13 13 13 ');
 
       return result.uid;
+      
     });
-
+    console.log('14 14 14 14 14 14 14 14 14 ');
     session.endSession();
+    console.log('15 15 15 15 15 15 15 15 15 ');
     
 
     
