@@ -8,15 +8,15 @@ export const ScUserPushTokenSchema = new mongoose.Schema({
     },
     token: {
         type: String
-    }
+    },
 },
 {
     timestamps : true
 });
 
-ScUserPushTokenSchema.plugin(timeZone);
+ScUserPushTokenSchema.plugin(timeZone, { paths: ['timeTest'] });
 
 export interface ScUserPushToken {
     readonly uid: string
-    readonly token: string
+    token: string
 }

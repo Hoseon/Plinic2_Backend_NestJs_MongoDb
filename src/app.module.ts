@@ -6,10 +6,17 @@ import { LoginModule } from './login/login.module';
 import { RegisterModule } from './register/register.module';
 import { DeviceLogModule } from './device-log/device-log.module';
 import { UserModule } from './user/user.module';
+import * as timeZone from 'mongoose-timezone';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://plinic:plinic0608@plinic2.rdvo6.mongodb.net/plinic2?retryWrites=true'),
+    MongooseModule.forRoot('mongodb+srv://plinic:plinic0608@plinic2.rdvo6.mongodb.net/plinic2?retryWrites=true',
+      {
+        connectionFactory: (connection) => {
+          connection.plugin(timeZone);
+          return connection;
+        }
+      }),
     LoginModule,
     RegisterModule,
     DeviceLogModule,
