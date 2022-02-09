@@ -12,7 +12,7 @@ export const ScUserNormalPushSchema = new mongoose.Schema({
     },
 }, {timestamps: true});
 
-ScUserNormalPushSchema.plugin(timeZone);
+// ScUserNormalPushSchema.plugin(timeZone);
 
 export interface ScUserNormalPush {
     readonly uid: string

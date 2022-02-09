@@ -2,47 +2,53 @@ import * as mongoose from 'mongoose';
 import * as timeZone from 'mongoose-timezone';
 
 export const ScUserPhoneAuthSchema = new mongoose.Schema({
-    uid: {
-        type: String,
-        required: true
-      },
-      name: {
-        type: String
-      },
-      gender: {
-        type: String
-      },
-      birth: {
-        type: String
-      },
-      uniqueKey: {
-        type: String
-      },
-      uniqueInSite: {
-        type: String
-      },
-      newsAgency: {
-        type: String
-      },
-      phone: {
-        type: String
-      },
-      foreinger: {
-        type: String
-      }
-}, {timestamps: true});
+  uid: {
+    type: String,
+    required: true,
+    unique: true,
+    ref: 'User'
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  phone: {
+    type: String
+  },
+  birth: {
+    type: String
+  },
+  name: {
+    type: String
+  },
+  foreigner: {
+    type: String
+  },
+  carrier: {
+    type: String
+  },
+  gender: {
+    type: Number
+  },
+},
+{
+  timestamps : true
+});
 
-ScUserPhoneAuthSchema.plugin(timeZone);
+// ScUserPhoneAuthSchema.plugin(timeZone);
 
 export interface ScUserPhoneAuth {
     readonly uid: string,
-    readonly name: string
-    readonly gender:  string
-    readonly birth: string
-    readonly uniqueKey: string
-    readonly uniqueInSite: string
-    readonly newsAgency:  string
-    readonly phone:  string
-    readonly foreinger: String
+    readonly email: string,
+    name: string
+    gender: number
+    birth: string
+    carrier: string
+    uniqueKey: string
+    uniqueInSite: string
+    newsAgency:  string
+    phone:  string
+    foreigner: String
      
 }

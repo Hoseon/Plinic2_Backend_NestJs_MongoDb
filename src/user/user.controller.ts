@@ -5,6 +5,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoginRecordDto } from './dto/login-record.dto';
 import { PushRecordDto } from './dto/push-record.dto';
+import { PhoneAuthDto } from './dto/phone-auth.dto';
+import { UpdateRegisterDto } from 'src/register/dto/update-register.dto';
 @ApiTags('사용자 정보')
 @Controller('user')
 export class UserController {
@@ -20,9 +22,13 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @ApiOperation({
+    summary: '특정 사용자 정보 가져 오기',
+    description : '로그인시, 사용자정보 재 조회시 사용'
+  })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')
@@ -33,6 +39,15 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+
+  @ApiOperation({
+    summary: '특정 사용자 nickname 중복체크',
+    description : 'nickname이 존재 하면 true, 존재하지 않으면 false를 돌려 준다'
+  })
+  @Get('/findNickName/:nickname')
+  findNickName(@Param('nickname') nickname: string) {
+    return this.userService.findNickName(nickname);
   }
   
   @ApiOperation({summary: '사용자 로그인 기록 저장' , description : '사용자 앱 on시 로그인 기록 저장'})
@@ -45,5 +60,23 @@ export class UserController {
   @Post('/lastPushTokenRecord')
   userPushTokenRecord(@Body() body: PushRecordDto) { 
     return this.userService.userPushTokenRecord(body);
+  }
+
+  @ApiOperation({ summary: '사용자 본인인증 정보 저장' })
+  @Post('/userPhoneAuth')
+  savePhoneAuth(@Body() body: PhoneAuthDto) { 
+    return this.userService.savePhoneAuth(body);
+  }
+
+  @ApiOperation({ summary: '사용자 본인인증 정보 저장 유무 확인', description: '사용자가 인증을 한 이력이 있는지 확인(회원정보 수정에 활용)' })
+  @Get('/userPhoneAuthCheck/:uid')
+  userPhoneAuthCheck(@Param('uid') uid: string) { 
+    return this.userService.userPhoneAuthCheck(uid);
+  }
+
+  @ApiOperation({ summary: '사용자 닉네임 변경', description: '사용자가 프로필 - 닉네임 변경을 했을대 데이터 저장' })
+  @Patch('/userUpdateNickName/:uid')
+  userUpdateNickName(@Param('uid') uid: string, @Body() body: UpdateRegisterDto) { 
+    return this.userService.updateUserNickName(uid, body);
   }
 }

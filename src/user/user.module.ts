@@ -5,12 +5,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ScUserLoginRecordSchema } from './entities/sc_user_last_login.entity';
 import { UserSchema } from 'src/register/entities/users.entity';
 import { ScUserPushTokenSchema } from 'src/register/entities/sc_user_pushtoken';
+import { ScUserPhoneAuthSchema } from 'src/register/entities/sc_user_phone_auth';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{name: 'User', schema: UserSchema}]),
     MongooseModule.forFeature([{name : 'sc_user_login_record', schema: ScUserLoginRecordSchema}]),
-    MongooseModule.forFeature([{name : 'sc_user_pushtoken', schema: ScUserPushTokenSchema}])
+    MongooseModule.forFeature([{name : 'sc_user_pushtoken', schema: ScUserPushTokenSchema}]),
+    MongooseModule.forFeature([{name : 'sc_user_phone_auth', schema: ScUserPhoneAuthSchema}]),
   ],
   controllers: [UserController],
   providers: [UserService]

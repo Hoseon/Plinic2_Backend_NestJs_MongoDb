@@ -4,7 +4,8 @@ import * as timeZone from 'mongoose-timezone';
 export const ScUserAgreeSchema = new mongoose.Schema({
     uid: {
         type: String,
-        required: true
+        required: true,
+        ref: 'User'
     },
     agree1: {
         type: Boolean
@@ -23,7 +24,7 @@ export const ScUserAgreeSchema = new mongoose.Schema({
     }
 }, {timestamps: true});
 
-ScUserAgreeSchema.plugin(timeZone);
+// ScUserAgreeSchema.plugin(timeZone);
 
 export interface ScUserAgree {
     readonly uid: string

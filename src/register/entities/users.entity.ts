@@ -41,7 +41,7 @@ export const UserSchema = new mongoose.Schema({
     timestamps : true
 });
 
-UserSchema.plugin(timeZone);
+// UserSchema.plugin(timeZone);
 
 export interface User {
     uid: string

@@ -4,7 +4,8 @@ import * as timeZone from 'mongoose-timezone';
 export const ScUserPushTokenSchema = new mongoose.Schema({
     uid: {
         type: String,
-        required: true
+        required: true,
+        ref: 'User'
     },
     token: {
         type: String
@@ -14,7 +15,7 @@ export const ScUserPushTokenSchema = new mongoose.Schema({
     timestamps : true
 });
 
-ScUserPushTokenSchema.plugin(timeZone, { paths: ['timeTest'] });
+// ScUserPushTokenSchema.plugin(timeZone, { paths: ['timeTest'] });
 
 export interface ScUserPushToken {
     readonly uid: string
