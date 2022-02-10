@@ -99,7 +99,7 @@ export class UserController {
       }
     })
   }))
-  async userUpdateProfileImage(@UploadedFiles() files: Express.Multer.File) { 
-    return this.userService.userUpdateProfileImage(files);
+  async userUpdateProfileImage(@UploadedFiles() files: Express.Multer.File, @Body() body: UpdateRegisterDto) { 
+    return this.userService.userUpdateProfileImage(files, body);
   }
 }
