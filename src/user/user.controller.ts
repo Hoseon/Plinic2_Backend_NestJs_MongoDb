@@ -106,6 +106,7 @@ export class UserController {
     @UploadedFiles() files: Express.Multer.File,
     @Body() body: UpdateRegisterDto
   ) { 
+    console.log(files);
     return this.userService.userUpdateProfileImage(files, body);
   }
 }
