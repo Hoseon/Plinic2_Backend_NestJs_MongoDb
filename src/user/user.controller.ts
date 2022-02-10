@@ -97,7 +97,10 @@ export class UserController {
       key: function(req, file, cb) {
         cb(null, file.originalname)
       }
-    })
+    }),
+    limits: {
+      fileSize : 15728640 //15Mb
+    }
   }))
   async userUpdateProfileImage(@UploadedFiles() files: Express.Multer.File, @Body() body: UpdateRegisterDto) { 
     return this.userService.userUpdateProfileImage(files, body);
