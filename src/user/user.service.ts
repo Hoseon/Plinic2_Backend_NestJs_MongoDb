@@ -139,10 +139,13 @@ export class UserService {
   }
 
   async userUpdateProfileImage(files: Express.Multer.File, updateUser: UpdateRegisterDto) { 
-    console.log(updateUser.uid);
-    console.log(updateUser.email);
-    console.log(files[0].location);
-    return files;
+    //프로필 이미지 정보 저장
+    const result = await this.userModel.findOneAndUpdate({ uid: updateUser.uid }, { avata_url: files[0].location, uid: updateUser.uid, email: updateUser.email }, {new : true})
+
+    // console.log(updateUser.uid);
+    // console.log(updateUser.email);
+    // console.log(files[0].location);
+    return result;
   }
 
   
