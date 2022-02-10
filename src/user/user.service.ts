@@ -138,9 +138,9 @@ export class UserService {
     return saveResult;
   }
 
-  async userUpdateProfileImage(files: Express.Multer.File, updateUser: UpdateRegisterDto) { 
-    console.log(updateUser.uid);
-    console.log(updateUser.email);
+  async userUpdateProfileImage(files: Express.Multer.File) { 
+    // console.log(updateUser.uid);
+    // console.log(updateUser.email);
     console.log(files);
     return files;
   }

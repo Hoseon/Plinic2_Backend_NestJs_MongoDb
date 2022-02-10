@@ -104,9 +104,9 @@ export class UserController {
   }))
   async userUpdateProfileImage(
     @UploadedFiles() files: Express.Multer.File,
-    @Body() body: UpdateRegisterDto
+    // @Body() body: UpdateRegisterDto
   ) { 
     console.log(files);
-    return this.userService.userUpdateProfileImage(files, body);
+    return this.userService.userUpdateProfileImage(files);
   }
 }
