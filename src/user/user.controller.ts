@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,6 +7,13 @@ import { LoginRecordDto } from './dto/login-record.dto';
 import { PushRecordDto } from './dto/push-record.dto';
 import { PhoneAuthDto } from './dto/phone-auth.dto';
 import { UpdateRegisterDto } from 'src/register/dto/update-register.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import * as multerS3 from 'multer-s3';
+import * as AWS from 'aws-sdk';
+import 'dotenv/config';
+
+const s3 = new AWS.S3()
+
 @ApiTags('사용자 정보')
 @Controller('user')
 export class UserController {
@@ -78,5 +85,21 @@ export class UserController {
   @Patch('/userUpdateNickName/:uid')
   userUpdateNickName(@Param('uid') uid: string, @Body() body: UpdateRegisterDto) { 
     return this.userService.updateUserNickName(uid, body);
+  }
+
+  @ApiOperation({ summary: '사용자 프로필 이미지 변경', description: '사용자가 프로필 - 이미지 변경을 했을때 s3 파일업로드 DB 데이터 저장' })
+  @Post('/userUpdateProfileImage')
+  @UseInterceptors(FilesInterceptor('images', 3, {
+    storage: multerS3({
+      s3: s3, 
+      bucket: process.env.AWS_S3_BUCKET_NAME,
+      acl: 'public-read',
+      key: function(req, file, cb) {
+        cb(null, file.originalname)
+      }
+    })
+  }))
+  async userUpdateProfileImage(@UploadedFiles() files: Express.Multer.File) { 
+    return this.userService.userUpdateProfileImage(files);
   }
 }

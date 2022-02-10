@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import * as AWS from 'aws-sdk';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { getCurrentDate } from 'src/common/util';
@@ -12,6 +13,14 @@ import { PhoneAuthDto } from './dto/phone-auth.dto';
 import { PushRecordDto } from './dto/push-record.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ScUserLoginRecord } from './entities/sc_user_last_login.entity';
+
+AWS.config.update({
+  "accessKeyId": process.env.AWS_ACCESS_KEY_ID,
+  "secretAccessKey": process.env.AWS_SECRET_ACCESS_KEY,
+  "region": process.env.AWS_REGION
+})
+
+const s3 = new AWS.S3();
 
 @Injectable()
 export class UserService {
@@ -127,6 +136,10 @@ export class UserService {
     const saveResult = await findUser.save();
 
     return saveResult;
+  }
+
+  async userUpdateProfileImage(files) { 
+    return files;
   }
 
   
