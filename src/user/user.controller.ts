@@ -102,7 +102,10 @@ export class UserController {
       fileSize : 15728640 //15Mb
     }
   }))
-  async userUpdateProfileImage(@UploadedFiles() files: Express.Multer.File, @Body() body: UpdateRegisterDto) { 
+  async userUpdateProfileImage(
+    @UploadedFiles() files: Express.Multer.File,
+    @Body() body: UpdateRegisterDto
+  ) { 
     return this.userService.userUpdateProfileImage(files, body);
   }
 }
