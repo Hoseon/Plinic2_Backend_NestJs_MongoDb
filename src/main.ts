@@ -17,7 +17,6 @@ async function bootstrap() {
   
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  app.use(express.static(join(process.cwd(), '../client/dist/')));
   app.use(express.json({ limit: '50mb' }));
   app.use(express.urlencoded({ extended: true, limit: '50mb', parameterLimit: 100000 }));
   app.enableCors();

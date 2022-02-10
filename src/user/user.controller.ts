@@ -89,18 +89,24 @@ export class UserController {
 
   @ApiOperation({ summary: '사용자 프로필 이미지 변경', description: '사용자가 프로필 - 이미지 변경을 했을때 s3 파일업로드 DB 데이터 저장' })
   @Post('/userUpdateProfileImage')
-  @UseInterceptors(FilesInterceptor('images', 3, {
+  @UseInterceptors(FilesInterceptor('images', 10, {
     storage: multerS3({
       s3: s3, 
       bucket: process.env.AWS_S3_BUCKET_NAME,
       acl: 'public-read',
-      key: function(req, file, cb) {
+      key: function (req, file, cb) {
+        console.log('1111111111111');
+        console.log('file :::::' + file);
+        console.log('2222222222222');
         cb(null, file.originalname)
       }
     }),
     limits: {
-      fileSize : 15728640 //15Mb
-    }
+      fieldNameSize: 10000,
+      fieldSize: 10000,
+      fileSize: 15728640, //15Mb
+    },
+
   }))
   async userUpdateProfileImage(
     @UploadedFiles() files: Express.Multer.File,
