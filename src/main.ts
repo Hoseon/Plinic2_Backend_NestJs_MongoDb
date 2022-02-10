@@ -16,8 +16,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  app.use(json({ limit: '100mb' }));
-  app.use(urlencoded({ extended: true, limit: '100mb' }));
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb', parameterLimit: 100000 }));
   app.enableCors();
   await app.listen(8001);
 }
