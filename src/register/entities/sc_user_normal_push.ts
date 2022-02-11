@@ -16,5 +16,5 @@ export const ScUserNormalPushSchema = new mongoose.Schema({
 
 export interface ScUserNormalPush {
     readonly uid: string
-    readonly useYN: boolean
+    useYN: boolean
 }

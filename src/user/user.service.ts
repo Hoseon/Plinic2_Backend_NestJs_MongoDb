@@ -13,6 +13,7 @@ import { PhoneAuthDto } from './dto/phone-auth.dto';
 import { PushRecordDto } from './dto/push-record.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ScUserLoginRecord } from './entities/sc_user_last_login.entity';
+import { ScUserNormalPush } from 'src/register/entities/sc_user_normal_push';
 
 AWS.config.update({
   "accessKeyId": process.env.AWS_ACCESS_KEY_ID,
@@ -31,6 +32,8 @@ export class UserService {
     @InjectModel('sc_user_login_record') private readonly sc_user_login_record: Model<ScUserLoginRecord>,
     @InjectModel('sc_user_pushtoken') private readonly sc_user_pushtoken_Model: Model<ScUserPushToken>,
     @InjectModel('sc_user_phone_auth') private readonly sc_user_phone_auth_Model: Model<ScUserPhoneAuth>,
+    @InjectModel('sc_user_normal_push') private readonly sc_user_normal_push: Model<ScUserNormalPush>,
+    @InjectModel('sc_user_marketing_push') private readonly sc_user_marketing_push: Model<ScUserNormalPush>,
   ) { }
 
   create(createUserDto: CreateUserDto) {
@@ -146,6 +149,41 @@ export class UserService {
     // console.log(updateUser.email);
     // console.log(files[0].location);
     return result;
+  }
+
+  async updateNormalPush(uid: string, useYn: boolean) { 
+    const findResult = await this.sc_user_normal_push.findOne({ uid: uid })
+    if (findResult == null) { throw new NotFoundException() }
+    
+    findResult.useYN = useYn;
+    const saveResult = await findResult.save();
+
+    return saveResult;
+    
+  }
+
+  async updateMarketingPush(uid: string, useYn: boolean) { 
+    const findResult = await this.sc_user_marketing_push.findOne({ uid: uid })
+    if (findResult == null) { throw new NotFoundException() }
+    
+    findResult.useYN = useYn;
+    const saveResult = await findResult.save();
+
+    return saveResult; 
+  }
+
+  async getUserPush(uid: string) { 
+    const findResult = this.sc_user_normal_push.findOne({ uid: uid });
+    if (findResult == null) { throw new NotFoundException(); }
+
+    return findResult;
+  }
+
+  async getUserMarketingPush(uid: string) { 
+    const findResult = this.sc_user_marketing_push.findOne({ uid: uid });
+    if (findResult == null) { throw new NotFoundException(); }
+
+    return findResult;
   }
 
   

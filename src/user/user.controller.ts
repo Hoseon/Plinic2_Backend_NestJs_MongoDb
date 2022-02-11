@@ -12,6 +12,7 @@ import * as multerS3 from 'multer-s3';
 import * as AWS from 'aws-sdk';
 import 'dotenv/config';
 import { CreateRegisterDto } from 'src/register/dto/create-register.dto';
+import { Bool } from 'aws-sdk/clients/clouddirectory';
 
 const s3 = new AWS.S3()
 
@@ -114,4 +115,30 @@ export class UserController {
   ) { 
     return this.userService.userUpdateProfileImage(files, body);
   }
+
+  @ApiOperation({ summary: '사용자 서비스 알림 상태 가져 오기' })
+  @Get('/getUserPush/:uid')
+  getUserPush(@Param('uid') uid: string) {
+    return this.userService.getUserPush(uid);
+  }
+
+  @ApiOperation({ summary: '사용자 서비스알림 변경', description: '서비스 알림을 switch하였을대 알림 여부를 true/false로 변경한다' })
+  @Patch('/updateNormalPush/:uid/:useYn')
+  userUpdateNormalPush(@Param('uid') uid: string, @Param('useYn') useYn : boolean) { 
+    return this.userService.updateNormalPush(uid, useYn);
+  }
+
+  @ApiOperation({ summary: '사용자 서비스 알림 상태 가져 오기' })
+  @Get('/getUserMarketingPush/:uid')
+  getUserMarketingPush(@Param('uid') uid: string) {
+    return this.userService.getUserMarketingPush(uid);
+  }
+
+  @ApiOperation({ summary: '사용자 마케팅알림 변경', description: '마케팅 알림을 switch하였을대 알림 여부를 true/false로 변경한다' })
+  @Patch('/updateMarketingPush/:uid/:useYn')
+  updateMarketingPush(@Param('uid') uid: string, @Param('useYn') useYn : boolean) { 
+    return this.userService.updateMarketingPush(uid, useYn);
+  }
+
+
 }
