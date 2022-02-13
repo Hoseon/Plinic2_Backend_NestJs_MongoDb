@@ -13,6 +13,8 @@ import * as AWS from 'aws-sdk';
 import 'dotenv/config';
 import { CreateRegisterDto } from 'src/register/dto/create-register.dto';
 import { Bool } from 'aws-sdk/clients/clouddirectory';
+import { AddressDto } from './dto/create-address.dto';
+import { UpdateAddressDto } from './dto/update-address.dto';
 
 const s3 = new AWS.S3()
 
@@ -138,6 +140,31 @@ export class UserController {
   @Patch('/updateMarketingPush/:uid/:useYn')
   updateMarketingPush(@Param('uid') uid: string, @Param('useYn') useYn : boolean) { 
     return this.userService.updateMarketingPush(uid, useYn);
+  }
+
+  @ApiOperation({ summary: '사용자 주소록 가져오기' })
+  @Get('/getUserAddress/:uid')
+  getUserAddress(@Param('uid') uid: string) { 
+    return this.userService.getUserAddresses(uid);
+  }
+
+
+  @ApiOperation({ summary: '사용자 주소록 추가' })
+  @Post('/createAddress/:uid')
+  createUserAddress(@Param('uid') uid: string, @Body() body: AddressDto) { 
+    return this.userService.createUserAddress(uid, body);
+  }
+
+  @ApiOperation({ summary: '사용자 주소록 삭제' })
+  @Delete('/delAddress/:id')
+  deleteUserAddress(@Param('id') _id: string) { 
+    return this.userService.deleteUserAddress(_id);
+  }
+
+  @ApiOperation({ summary: '사용자 주소록 수정' })
+  @Patch('/updateAddress/:uid/:id')
+  updateUserAddress(@Param('uid') uid: string, @Param('id') _id: string, @Body() body: UpdateAddressDto) { 
+    return this.userService.updateUserAddress(uid, _id, body);
   }
 
 

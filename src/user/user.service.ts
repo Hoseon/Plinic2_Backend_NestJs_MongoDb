@@ -14,6 +14,10 @@ import { PushRecordDto } from './dto/push-record.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ScUserLoginRecord } from './entities/sc_user_last_login.entity';
 import { ScUserNormalPush } from 'src/register/entities/sc_user_normal_push';
+import { ScUserAddress } from './entities/sc_user_address.entity';
+import { AddressDto } from './dto/create-address.dto';
+import { UpdateAddressDto } from './dto/update-address.dto';
+import { Uid } from 'aws-sdk/clients/efs';
 
 AWS.config.update({
   "accessKeyId": process.env.AWS_ACCESS_KEY_ID,
@@ -34,6 +38,7 @@ export class UserService {
     @InjectModel('sc_user_phone_auth') private readonly sc_user_phone_auth_Model: Model<ScUserPhoneAuth>,
     @InjectModel('sc_user_normal_push') private readonly sc_user_normal_push: Model<ScUserNormalPush>,
     @InjectModel('sc_user_marketing_push') private readonly sc_user_marketing_push: Model<ScUserNormalPush>,
+    @InjectModel('sc_user_address') private readonly sc_user_address: Model<ScUserAddress>,
   ) { }
 
   create(createUserDto: CreateUserDto) {
@@ -184,6 +189,56 @@ export class UserService {
     if (findResult == null) { throw new NotFoundException(); }
 
     return findResult;
+  }
+
+  /////////주소 정보 가져오기/ 저장하기///////////
+
+  async getUserAddresses(uid: string) { 
+    const findResult = this.sc_user_address.find({ uid: uid });
+
+    if (findResult == null) { 
+      throw new NotFoundException();
+    }
+
+    return findResult;
+  }
+
+  async createUserAddress(uid: string, body: AddressDto) { 
+    //사용자 주소 정보 저장
+
+    //사용자 주소중 기본주소로 저장하는 로직 처리
+    if (body.isDefault == true) { 
+      const isDefResult = await this.sc_user_address.findOneAndUpdate({ uid: uid, isDefault: true }, { isDefault: false });
+    }
+
+    const preSave = new this.sc_user_address(body);
+    const saveResult = preSave.save();
+    return saveResult;
+  }
+
+  async updateUserAddress(uid: string, _id: string, body: UpdateAddressDto) { 
+
+    if (body.isDefault == true) { 
+      const isDefResult = await this.sc_user_address.findOneAndUpdate({ uid: uid, isDefault: true }, { isDefault: false });
+    }
+
+    const findData = await this.sc_user_address.findById({ _id: _id });
+    findData.isDefault = body.isDefault ?? false;
+    findData.phone = body.phone ?? '';
+    findData.address1 = body.address1 ?? '';
+    findData.address2 = body.address2 ?? '';
+    findData.postNumber = body.postNumber ?? null;
+    findData.toName = body.toName ?? '';
+    findData.email = body.email ?? '';
+
+    const saveResult = await findData.save();
+
+    return saveResult;
+  }
+
+  async deleteUserAddress(_id: string) { 
+    const deleteResult = this.sc_user_address.findByIdAndDelete({ _id: _id });
+    return deleteResult;
   }
 
   
