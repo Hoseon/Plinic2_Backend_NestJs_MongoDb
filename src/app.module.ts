@@ -7,6 +7,7 @@ import { RegisterModule } from './register/register.module';
 import { DeviceLogModule } from './device-log/device-log.module';
 import { UserModule } from './user/user.module';
 import { NoticeModule } from './notice/notice.module';
+import { UnregisterModule } from './unregister/unregister.module';
 import * as timeZone from 'mongoose-timezone';
 
 @Module({
@@ -23,6 +24,7 @@ import * as timeZone from 'mongoose-timezone';
     DeviceLogModule,
     UserModule,
     NoticeModule,
+    UnregisterModule,
   ],
   controllers: [AppController],
   providers: [AppService],
