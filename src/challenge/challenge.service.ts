@@ -33,7 +33,7 @@ export class ChallengeService {
   async findOne(id: string) {
     var date = getCurrentDate();
     const result = await this.scChallengeModel.find({
-      // startAt: {$lte : date}
+      startAt: { $lte: date }, endAt: {$gte: date}
     }).limit(1);
     return result;
   }
