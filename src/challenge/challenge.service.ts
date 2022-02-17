@@ -23,6 +23,7 @@ export class ChallengeService {
   }
 
   findAll() {
+    console.log(getCurrentDate().toLocaleDateString());
     return getCurrentDate();
   }
 
