@@ -23,7 +23,7 @@ export class ChallengeService {
   }
 
   findAll() {
-    return `This action returns all challenge`;
+    return getCurrentDate();
   }
 
   async findOne(id: string) {
