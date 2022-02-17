@@ -8,6 +8,8 @@ import { DeviceLogModule } from './device-log/device-log.module';
 import { UserModule } from './user/user.module';
 import { NoticeModule } from './notice/notice.module';
 import { UnregisterModule } from './unregister/unregister.module';
+import { RewardModule } from './reward/reward.module';
+import { ChallengeModule } from './challenge/challenge.module';
 import * as timeZone from 'mongoose-timezone';
 
 @Module({
@@ -25,6 +27,8 @@ import * as timeZone from 'mongoose-timezone';
     UserModule,
     NoticeModule,
     UnregisterModule,
+    RewardModule,
+    ChallengeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
