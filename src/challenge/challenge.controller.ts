@@ -16,7 +16,12 @@ export class ChallengeController {
   @ApiOperation({summary: '케어 챌린지 전체 리스트 가져오기'})
   @Get()
   findAll() {
-    return this.challengeService.findAll();
+    return this.challengeService.findIng();
+  }
+
+  @Get('/esti')
+  findEsti() {
+    return this.challengeService.findEsti();
   }
 
   @ApiOperation({summary: '케어 챌린지 1건 조회'})

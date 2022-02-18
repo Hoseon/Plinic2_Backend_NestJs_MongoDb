@@ -15,19 +15,24 @@ export class ChallengeService {
 
   async create(createChallengeDto: CreateChallengeDto) {
     const preSave = new this.scChallengeModel(createChallengeDto);
-    await preSave.save().then((result) => {
-      return result;
-    }, (error) => { 
-      return error;
-    });
+    const result = await preSave.save();
+    return result;
   }
 
-  findAll() {
-    console.log(getCurrentDate());
-    console.log(getCurrentDate().toLocaleDateString());
-    console.log(getCurrentDate().toLocaleString());
-    console.log(getCurrentDate().toLocaleTimeString());
-    return getCurrentDate();
+  findIng() {
+    var date = getCurrentDate();
+    const findResult = this.scChallengeModel.find({
+      division: '진행',
+      status: '활성화',
+      startAt: { $lte: date },
+      endAt: { $gte: date }
+    }).sort({ createdAt: -1 }).limit(1)
+    return findResult;
+  }
+  
+  findEsti() {
+    const findResult = this.scChallengeModel.find({division : '예고', status : '활성화'}).sort({createdAt : -1}).limit(1)
+    return findResult;
   }
 
   async findOne(id: string) {
