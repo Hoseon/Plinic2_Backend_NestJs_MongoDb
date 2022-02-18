@@ -13,18 +13,19 @@ export class ChallengeController {
   create(@Body() createChallengeDto: CreateChallengeDto) {
     return this.challengeService.create(createChallengeDto);
   }
-  @ApiOperation({summary: '케어 챌린지 전체 리스트 가져오기'})
+  @ApiOperation({summary: '케어 챌린지 현재 진행 데이터 가져오기'})
   @Get()
   findAll() {
     return this.challengeService.findIng();
   }
 
+  @ApiOperation({summary: '케어 챌린지 예고 데이터 가져오기'})
   @Get('/esti')
   findEsti() {
     return this.challengeService.findEsti();
   }
 
-  @ApiOperation({summary: '케어 챌린지 1건 조회'})
+  @ApiOperation({summary: '챌린지 상세조회'})
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.challengeService.findOne(id);

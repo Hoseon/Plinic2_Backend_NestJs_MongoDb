@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { getCurrentDate } from 'src/common/util';
@@ -19,27 +19,36 @@ export class ChallengeService {
     return result;
   }
 
-  findIng() {
+  async findIng() {
     var date = getCurrentDate();
-    const findResult = this.scChallengeModel.find({
+    const findResult = await this.scChallengeModel.findOne({
       division: '진행',
       status: '활성화',
       startAt: { $lte: date },
       endAt: { $gte: date }
     }).sort({ createdAt: -1 }).limit(1)
+    if (findResult == null) { 
+      throw new NotFoundException();
+    }
     return findResult;
   }
   
-  findEsti() {
-    const findResult = this.scChallengeModel.find({division : '예고', status : '활성화'}).sort({createdAt : -1}).limit(1)
+  async findEsti() {
+    const findResult = await this.scChallengeModel.findOne({
+      division: '예고',
+      status: '활성화'
+    }).sort({ createdAt: -1 }).limit(1)
+    if (findResult == null) { 
+      throw new NotFoundException();
+    }
     return findResult;
   }
 
   async findOne(id: string) {
-    var date = getCurrentDate();
-    const result = await this.scChallengeModel.find({
-      startAt: { $lte: date }, endAt: {$gte: date}
-    }).limit(1);
+    const result = await this.scChallengeModel.findById({ _id: id });
+    if (result == null) { 
+      throw new NotFoundException();
+    }
     return result;
   }
 
