@@ -30,6 +30,12 @@ export class RewardController {
     return this.rewardService.findOne(uid);
   }
 
+  @ApiOperation({summary: '사용자 특정 보상상품 지급 내역 1건 가져오기'})
+  @Get(':checkUserAddress/:uid')
+  findCheckUserAddress(@Param('uid') uid: string) {
+    return this.rewardService.findCheckUserAddress(uid);
+  }
+
   @ApiOperation({summary: '사용자 특정 보상상품 지급 수정하기'})
   @Patch(':id')
   update(@Param('id') uid: string, @Body() updateRewardDto: UpdateRewardDto) {

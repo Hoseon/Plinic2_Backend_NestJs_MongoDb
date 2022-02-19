@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
+import { ScUserAddress } from 'src/user/entities/sc_user_address.entity';
 import { User } from 'src/user/entities/user.entity';
 import { CreateRewardDto } from './dto/create-reward.dto';
 import { UpdateRewardDto } from './dto/update-reward.dto';
@@ -13,6 +14,7 @@ export class RewardService {
     @InjectConnection() private connection: Connection,
     @InjectModel('User') private readonly userModel: Model<User>,
     @InjectModel('sc_user_reward') private readonly sc_user_reward: Model<ScUserReward>,
+    @InjectModel('sc_user_address') private readonly sc_user_address: Model<ScUserAddress>,
   ) { }
   async create(createRewardDto: CreateRewardDto) {
     const preSave = new this.sc_user_reward(createRewardDto);
@@ -26,6 +28,14 @@ export class RewardService {
 
   async findOne(uid: string) {
     const findResult = await this.sc_user_reward.findOne({ uid: uid });
+    if (findResult == null) { 
+      throw new NotFoundException();
+    }
+    return findResult;
+  }
+
+  async findCheckUserAddress(uid: string) {
+    const findResult = await this.sc_user_address.findOne({ uid: uid, isDefault: true });
     if (findResult == null) { 
       throw new NotFoundException();
     }
