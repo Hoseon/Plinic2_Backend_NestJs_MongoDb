@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as moment from 'moment-timezone';
 import * as timeZone from 'mongoose-timezone';
+import { ScDeviceLog } from 'src/devicelog/entities/devicelog.entity';
 
 export const ScDeviceCountSchema = new mongoose.Schema({
     uid: {
@@ -18,27 +19,17 @@ export const ScDeviceCountSchema = new mongoose.Schema({
             default: Date.now
         },
         count: {
-            type: String,
+            type: Number,
             required: true,
             default: 1
         },
     }],
-    createdAt: {
-      type: Date,
+    devicelog: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
-      default: Date.now
-    },
-    users: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
-      ref: 'User'
-    },
-    pointlog: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
-      ref: 'pointlog'
+      ref: 'sc_device_log'
     }
-});
+}, {timestamps: true});
   
 ScDeviceCountSchema.plugin(timeZone);
 
@@ -47,7 +38,6 @@ export interface ScDeviceCount {
     email: string,
     countLog: [{createdAt: Date, count: string}],
     createdAt: Date,
-    // updatedAt: Date,
-    // users : string,   
+    devicelog: string,
   }
 
