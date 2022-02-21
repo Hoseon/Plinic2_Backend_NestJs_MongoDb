@@ -45,7 +45,7 @@ export class DevicelogService {
       
       if (totalTime >= 150) {
         const countFindResult = await this.sc_device_count.findOne({ uid: createDevicelogDto.uid, 'countLog$.createdAt' : {$gte : new Date(`${today}T00:00:00.000Z`)}})
-        if(countFindResult === null) {
+        // if(countFindResult === null) {
         const countSaveResult = await this.sc_device_count.findOneAndUpdate({
           uid: createDevicelogDto.uid
         }, {
@@ -60,7 +60,7 @@ export class DevicelogService {
         }, {
           upsert: true
         }).session(session);
-        }
+        // }
       }
     });
     session.endSession();
