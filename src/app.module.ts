@@ -4,12 +4,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoginModule } from './login/login.module';
 import { RegisterModule } from './register/register.module';
-import { DeviceLogModule } from './device-log/device-log.module';
 import { UserModule } from './user/user.module';
 import { NoticeModule } from './notice/notice.module';
 import { UnregisterModule } from './unregister/unregister.module';
 import { RewardModule } from './reward/reward.module';
 import { ChallengeModule } from './challenge/challenge.module';
+import { DevicelogModule } from './devicelog/devicelog.module';
+import { DevicecountModule } from './devicecount/devicecount.module';
 import * as timeZone from 'mongoose-timezone';
 
 @Module({
@@ -23,12 +24,13 @@ import * as timeZone from 'mongoose-timezone';
       }),
     LoginModule,
     RegisterModule,
-    DeviceLogModule,
     UserModule,
     NoticeModule,
     UnregisterModule,
     RewardModule,
     ChallengeModule,
+    DevicelogModule,
+    DevicecountModule,
   ],
   controllers: [AppController],
   providers: [AppService],
