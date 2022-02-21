@@ -19,7 +19,7 @@ export class DevicelogService {
     var today = getCurrentDate().toISOString().substring(0,10);
     const session = await this.connection.startSession();
     
-    await session.withTransaction(async () => {
+    const trResult = await session.withTransaction(async () => {
 
       const saveResult = await this.sc_device_log.findOneAndUpdate({
         uid: createDevicelogDto.uid
@@ -64,6 +64,8 @@ export class DevicelogService {
       }
     });
     session.endSession();
+    return await this.getUserTimeLog(createDevicelogDto.uid);
+    
   }
 
   async getCalendarData(id: string): Promise<any> {

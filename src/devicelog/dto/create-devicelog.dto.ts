@@ -14,7 +14,7 @@ export class CreateDevicelogDto {
     @IsString()
     from: string;
 
-    @ApiProperty({ example: '010-1234-1234' })
+    @ApiProperty({ examples: ['50', 'test' ] })
     @IsArray()
     log: [{
             time: number,
