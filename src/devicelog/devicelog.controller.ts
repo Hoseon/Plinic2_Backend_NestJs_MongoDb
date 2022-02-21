@@ -18,6 +18,11 @@ export class DevicelogController {
   findOne(@Param('id') id: string) {
     return this.devicelogService.findOne(id);
   }
+
+  @Get()
+  findAll() {
+    return this.devicelogService.findAll();
+   }
   
   @ApiOperation({ summary: '사용자의 캘린더에 보여질 기록을 가져온다.' })
   @Get('/getCalendarData/:uid')

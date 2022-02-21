@@ -45,8 +45,8 @@ export class DevicelogService {
       
       if (totalTime >= 150) {
         const countFindResult = await this.sc_device_count.findOne({ uid: createDevicelogDto.uid, 'countLog$.createdAt' : {$gte : new Date(`${today}T00:00:00.000Z`)}})
-        // if(countFindResult === null) {
-        const countSaveResult = await this.sc_device_count.findOneAndUpdate({
+        if(countFindResult === null) {
+        await this.sc_device_count.findOneAndUpdate({
           uid: createDevicelogDto.uid
         }, {
           uid: createDevicelogDto.uid,
@@ -60,7 +60,27 @@ export class DevicelogService {
         }, {
           upsert: true
         }).session(session);
-        // }
+        } else {
+          var preDate = countFindResult.countLog[+countFindResult.countLog.length - 1].createdAt.toISOString().substring(0, 10);
+          var today = getCurrentDate().toISOString().substring(0, 10);
+          if (preDate !== today) { 
+            //마지막 날짜가 오늘이 없으면 데이터 누적실시
+            await this.sc_device_count.findOneAndUpdate({
+              uid: createDevicelogDto.uid
+            }, {
+              uid: createDevicelogDto.uid,
+              email: createDevicelogDto.email,
+              devicelog: saveResult._id,
+              $push: {
+                countLog: [{
+                  createdAt: getCurrentDate()
+                }]
+              }
+            }, {
+              upsert: true
+            }).session(session);
+          }
+        }
       }
     });
     session.endSession();
@@ -89,8 +109,17 @@ export class DevicelogService {
   }
 
   async findAll() {
-    const anybody = await this.getUserTimeLog('kakao:1754055337');
-    return anybody; 
+    var today = getCurrentDate().toISOString().substring(0, 10);
+    console.log(today);
+    const countFindResult = await this.sc_device_count.findOne({ uid: 'kakao:1754055337', 'countLog$.createdAt': { $gt: new Date(`${today}T00:00:00.000Z`) } })
+    countFindResult.countLog.forEach(value => {
+      console.log(value.createdAt.toISOString().substring(0, 10));
+      if (value.createdAt.toISOString().substring(0, 10) === getCurrentDate().toISOString().substring(0, 10)) {
+        console.log('날짜 같은게 있음')
+      }
+    });
+    // const anybody = await this.getUserTimeLog('kakao:1754055337');
+    return countFindResult; 
   }
 
   findOne(uid: string) {
