@@ -30,6 +30,12 @@ export class RewardController {
     return this.rewardService.findOne(uid);
   }
 
+  @ApiOperation({summary: '사용자 챌린지 보상 여부 확인하기'})
+  @Get('/findCheckReward/:id/:chid')
+  findCheckReward(@Param('id') uid: string, @Param('chid') chid: string) {
+    return this.rewardService.findCheckReward(uid, chid);
+  }
+
   @ApiOperation({summary: '사용자 특정 보상상품 지급 내역 1건 가져오기'})
   @Get(':checkUserAddress/:uid')
   findCheckUserAddress(@Param('uid') uid: string) {

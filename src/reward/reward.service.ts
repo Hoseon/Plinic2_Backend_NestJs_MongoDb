@@ -42,6 +42,14 @@ export class RewardService {
     return findResult;
   }
 
+  async findCheckReward(uid: string, chid: string) { 
+    const findResult = await this.sc_user_reward.findOne({ uid: uid, challengeId: chid });
+    if (findResult == null) { 
+      throw new NotFoundException();
+    }
+    return findResult;
+  }
+
   update(id: string, updateRewardDto: UpdateRewardDto) {
     return `This action updates a #${id} reward`;
   }
