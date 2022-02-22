@@ -43,4 +43,10 @@ export class DevicecountService {
     const findResult = await this.sc_device_count.aggregate(pipeLine);
     return findResult;
   }
+
+  async getAllUserCount() { //챌린지 진행중인 전체사용자 카운트 하기
+    var today = getCurrentDate().toISOString().substring(0, 7);
+    const countResult = await this.sc_device_count.find({ "countLog.createdAt": { $gte: new Date(`${today}-01T00:00:00.000Z`) } }).count();
+    return countResult;
+  }
 }

@@ -7,7 +7,13 @@ import { UpdateDevicecountDto } from './dto/update-devicecount.dto';
 @ApiTags('사용자 누적회수 구해오기')
 @Controller('devicecount')
 export class DevicecountController {
-  constructor(private readonly devicecountService: DevicecountService) {}
+  constructor(private readonly devicecountService: DevicecountService) { }
+  
+  @ApiOperation({ summary: '이달의 챌린지 사용자 전체 카운트' })
+  @Get('/getAllCount')
+  getAllUserCount() { 
+    return this.devicecountService.getAllUserCount();
+  }
   
   @ApiOperation({summary : '사용자의 캘린더 리스트를 가져 오기'})
   @Get(':uid')
@@ -26,5 +32,7 @@ export class DevicecountController {
   getAllCount(@Param('uid') uid: string) { 
     return this.devicecountService.getAllUseCount(uid);
   }
+
+  
   
 }
