@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose"
+import * as mongoose from 'mongoose';
 
 export type ScUserRewardDocument = ScUserReward & Document;
 
@@ -31,6 +32,9 @@ export class ScUserReward {
 
     @Prop({required: false})
     productName: string
+
+    @Prop({required: true, type : mongoose.Schema.Types.ObjectId, ref: 'sc_'})
+    challengeId
 }
 
 export const ScUserRewardSchema = SchemaFactory.createForClass(ScUserReward);

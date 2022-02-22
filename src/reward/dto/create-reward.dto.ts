@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
+import { isValidObjectId } from "mongoose";
 
 export class CreateRewardDto {
     @ApiProperty({ example: 'kakao:1754055337' })
@@ -37,5 +38,8 @@ export class CreateRewardDto {
     @ApiProperty({ example: '스타벅스 상품권' })
     @IsString()
     productName: string
+
+    @ApiProperty({ example: '6212ea4189341bf981a8b11c' })
+    challengeId
 
 }
