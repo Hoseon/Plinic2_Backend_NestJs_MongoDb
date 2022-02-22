@@ -20,5 +20,11 @@ export class DevicecountController {
   getMonthCount(@Param('uid') uid: string) { 
     return this.devicecountService.getMonthUseCount(uid);
   }
+
+  @ApiOperation({ summary: '사용자의 전체 총 사용 횟수를 가져 온다' })
+  @Get('/getAllUseCount/:uid')
+  getAllCount(@Param('uid') uid: string) { 
+    return this.devicecountService.getAllUseCount(uid);
+  }
   
 }

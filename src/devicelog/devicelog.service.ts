@@ -118,15 +118,15 @@ export class DevicelogService {
     return findResult;
   }
   
-  async getMonthUseCount(uid: String) {
-    var today = getCurrentDate().toISOString().substring(0, 7);
-    var unwind = { $unwind: "$log" };
-    var match = { $match: { uid: uid, "log.createdTime": { $gte: new Date(`${today}-01T00:00:00.000Z`) } } };
-    var group = { $group: { _id: "$uid", myMonthCount: { $sum: 1 } } };
-    var pipeLine = [unwind, match, group];
-    const findResult = await this.sc_device_log.aggregate(pipeLine);
-    return findResult;
-  }
+  // async getMonthUseCount(uid: String) { //이달의 사용일수 가져오기
+  //   var today = getCurrentDate().toISOString().substring(0, 7);
+  //   var unwind = { $unwind: "$log" };
+  //   var match = { $match: { uid: uid, "log.createdTime": { $gte: new Date(`${today}-01T00:00:00.000Z`) } } };
+  //   var group = { $group: { _id: "$uid", myMonthCount: { $sum: 1 } } };
+  //   var pipeLine = [unwind, match, group];
+  //   const findResult = await this.sc_device_log.aggregate(pipeLine);
+  //   return findResult;
+  // }
 
   async findAll() {
     var today = getCurrentDate().toISOString().substring(0, 7);

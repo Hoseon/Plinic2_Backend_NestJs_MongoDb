@@ -33,6 +33,14 @@ export class DevicecountService {
     const findResult = await this.sc_device_count.aggregate(pipeLine);
     return findResult;
   }
-  
-  
+
+  async getAllUseCount(uid: String) { //전체 사용일수 가져오기
+    var today = getCurrentDate().toISOString().substring(0, 7);
+    var unwind = { $unwind: "$countLog" };
+    var match = { $match: { uid: uid } };
+    var group = { $group: { _id: "$uid", myAllCount: { $sum: 1 } } };
+    var pipeLine = [unwind, match, group];
+    const findResult = await this.sc_device_count.aggregate(pipeLine);
+    return findResult;
+  }
 }
