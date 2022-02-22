@@ -149,15 +149,20 @@ export class DevicelogService {
     // return 'test'; 
   }
 
+  async monthlyTimeUserCount() {
+    var today = getCurrentDate().toISOString().substring(0, 7);
+    var unwind = { $unwind: "$log" };
+    var match = { $match: { "log.createdTime" : {$gte : new Date("2022-02-01T00:00:00.000+00:00")} } };
+    var count = { $count: "monthTimeUseCount" }
+    var pipeLine = [unwind, match, count]
+    
+    const countResult = await this.sc_device_log.aggregate(pipeLine);
+    return countResult;
+
+  }
+
   findOne(uid: string) {
     return `This action returns a #${uid} devicelog`;
   }
 
-  update(id: number, updateDevicelogDto: UpdateDevicelogDto) {
-    return `This action updates a #${id} devicelog`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} devicelog`;
-  }
 }

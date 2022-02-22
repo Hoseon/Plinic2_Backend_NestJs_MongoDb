@@ -14,10 +14,12 @@ export class DevicelogController {
     return this.devicelogService.create(createDevicelogDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.devicelogService.findOne(id);
+  @ApiOperation({ summary: '이달의 챌린지 시간의 기록된 모든 카운트를 가져 온다.' })
+  @Get('/monthlyTimeUserCount')
+  getMonthlyTimeUserCount() {
+    return this.devicelogService.monthlyTimeUserCount();
   }
+
 
   @Get()
   findAll() {
@@ -35,5 +37,7 @@ export class DevicelogController {
   getCalendarData(@Param('uid') uid: string) {
     return this.devicelogService.findOne(uid);
   }
+
+  
 
 }
