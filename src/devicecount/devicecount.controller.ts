@@ -14,5 +14,11 @@ export class DevicecountController {
   async findOne(@Param('uid') uid: string) {
     return await this.devicecountService.findOne(uid);
   }
+
+  @ApiOperation({ summary: '사용자의 이번달 총 사용 횟수를 가져 온다' })
+  @Get('/getMonthUseCount/:uid')
+  getMonthCount(@Param('uid') uid: string) { 
+    return this.devicecountService.getMonthUseCount(uid);
+  }
   
 }

@@ -108,18 +108,45 @@ export class DevicelogService {
     return findResult;
   }
 
+  async getMonthUseTime(uid: String) {
+    var today = getCurrentDate().toISOString().substring(0, 7);
+    var unwind = { $unwind: "$log" };
+    var match = { $match: { uid: uid, "log.createdTime": { $gte: new Date(`${today}-01T00:00:00.000Z`) } } };
+    var group = { $group: { _id: "$uid", monthTime: { $sum: "$log.time" } } };
+    var pipeLine = [unwind, match, group];
+    const findResult = await this.sc_device_log.aggregate(pipeLine);
+    return findResult;
+  }
+  
+  async getMonthUseCount(uid: String) {
+    var today = getCurrentDate().toISOString().substring(0, 7);
+    var unwind = { $unwind: "$log" };
+    var match = { $match: { uid: uid, "log.createdTime": { $gte: new Date(`${today}-01T00:00:00.000Z`) } } };
+    var group = { $group: { _id: "$uid", myMonthCount: { $sum: 1 } } };
+    var pipeLine = [unwind, match, group];
+    const findResult = await this.sc_device_log.aggregate(pipeLine);
+    return findResult;
+  }
+
   async findAll() {
-    var today = getCurrentDate().toISOString().substring(0, 10);
+    var today = getCurrentDate().toISOString().substring(0, 7);
     console.log(today);
-    const countFindResult = await this.sc_device_count.findOne({ uid: 'kakao:1754055337', 'countLog$.createdAt': { $gt: new Date(`${today}T00:00:00.000Z`) } })
-    countFindResult.countLog.forEach(value => {
-      console.log(value.createdAt.toISOString().substring(0, 10));
-      if (value.createdAt.toISOString().substring(0, 10) === getCurrentDate().toISOString().substring(0, 10)) {
-        console.log('날짜 같은게 있음')
-      }
-    });
+    var unwind = { $unwind: "$log" };
+    var match = { $match: { uid: 'kakao:1754055337', "log.createdTime": {$gte : new Date(`${today}-01T00:00:00.000Z`)} }};
+    var group = { $group: { _id: "$uid", pointsum: { $sum: "$log.time" } } };
+    var pipeline = [unwind, match, group];
+    const findResult = await this.sc_device_log.aggregate(pipeline);
+
+    // const countFindResult = await this.sc_device_log.findOne({ uid: 'kakao:1754055337', 'log$.createdTime': { $gte: new Date(`${today}-01T00:00:00.000Z`) } })
+    // countFindResult.countLog.forEach(value => {
+    //   console.log(value.createdAt.toISOString().substring(0, 10));
+    //   if (value.createdAt.toISOString().substring(0, 10) === getCurrentDate().toISOString().substring(0, 10)) {
+    //     console.log('날짜 같은게 있음')
+    //   }
+    // });
     // const anybody = await this.getUserTimeLog('kakao:1754055337');
-    return countFindResult; 
+    return findResult; 
+    // return 'test'; 
   }
 
   findOne(uid: string) {

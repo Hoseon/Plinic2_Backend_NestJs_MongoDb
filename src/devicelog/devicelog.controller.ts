@@ -22,7 +22,13 @@ export class DevicelogController {
   @Get()
   findAll() {
     return this.devicelogService.findAll();
-   }
+  }
+  
+  @ApiOperation({ summary: '사용자의 이번달 총 사용시간을 가져온다' })
+  @Get('/getMonthUseTime/:uid')
+  getMonthTime(@Param('uid') uid: string) { 
+    return this.devicelogService.getMonthUseTime(uid);
+  }
   
   @ApiOperation({ summary: '사용자의 캘린더에 보여질 기록을 가져온다.' })
   @Get('/getCalendarData/:uid')
