@@ -33,7 +33,7 @@ export class ScUserReward {
     @Prop({required: false})
     productName: string
 
-    @Prop({required: false, type : mongoose.Schema.Types.ObjectId, ref: 'sc_'})
+    @Prop({required: true, type : mongoose.Schema.Types.ObjectId, ref: 'sc_'})
     challengeId
 }
 
