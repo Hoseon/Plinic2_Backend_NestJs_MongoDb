@@ -44,14 +44,14 @@ export class DevicelogService {
       
       
       if (totalTime >= 150) {
-        const countFindResult = await this.sc_device_count.findOne({ uid: createDevicelogDto.uid, 'countLog$.createdAt' : {$gte : new Date(`${today}T00:00:00.000Z`)}})
+        const countFindResult = await this.sc_device_count.findOne({ uid: createDevicelogDto.uid, 'countLog$.createdAt' : {$gte : new Date(`${today}T00:00:00.000Z`)}}).session(session)
         if(countFindResult === null) {
         await this.sc_device_count.findOneAndUpdate({
           uid: createDevicelogDto.uid
         }, {
           uid: createDevicelogDto.uid,
           email: createDevicelogDto.email,
-          devicelog: saveResult._id,
+          // devicelog: saveResult._id,
           $push: {
             countLog: [{
               createdAt: getCurrentDate()
