@@ -11,6 +11,7 @@ import { RewardModule } from './reward/reward.module';
 import { ChallengeModule } from './challenge/challenge.module';
 import { DevicelogModule } from './devicelog/devicelog.module';
 import { DevicecountModule } from './devicecount/devicecount.module';
+import { SweettrackerModule } from './sweettracker/sweettracker.module';
 import * as timeZone from 'mongoose-timezone';
 
 @Module({
@@ -31,6 +32,7 @@ import * as timeZone from 'mongoose-timezone';
     ChallengeModule,
     DevicelogModule,
     DevicecountModule,
+    SweettrackerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
