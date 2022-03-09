@@ -134,6 +134,15 @@ export class UserService {
     return findResult;
   }
 
+  async userPhoneAuthCheckFindId(phone: string): Promise<ScUserPhoneAuth> {
+    const findResult = await this.sc_user_phone_auth_Model.findOne({phone: phone}).limit(1);
+    if (findResult === null) { 
+      throw new NotFoundException();
+    }
+
+    return findResult;
+  }
+
   async updateUserNickName(uid: string, updateRegisterDto: UpdateRegisterDto) {
     const findUser = await this.userModel.findOne({ uid: uid });
     //사용자 찾음 로직

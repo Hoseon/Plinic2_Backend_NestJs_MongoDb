@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,7 +12,6 @@ import * as multerS3 from 'multer-s3';
 import * as AWS from 'aws-sdk';
 import 'dotenv/config';
 import { CreateRegisterDto } from 'src/register/dto/create-register.dto';
-import { Bool } from 'aws-sdk/clients/clouddirectory';
 import { AddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 
@@ -83,6 +82,12 @@ export class UserController {
   @Get('/userPhoneAuthCheck/:uid')
   userPhoneAuthCheck(@Param('uid') uid: string) { 
     return this.userService.userPhoneAuthCheck(uid);
+  }
+
+  @ApiOperation({ summary: '사용자 본인인증 정보 저장 유무 확인', description: '사용자가 인증을 한 이력이 있는지 확인(ID찾기에 활용)' })
+  @Get('/userPhoneAuthCheckFindId/:phone')
+  userPhoneAuthCheckFindId(@Param('phone') phone: string) { 
+    return this.userService.userPhoneAuthCheckFindId(phone);
   }
 
   @ApiOperation({ summary: '사용자 닉네임 변경', description: '사용자가 프로필 - 닉네임 변경을 했을대 데이터 저장' })
