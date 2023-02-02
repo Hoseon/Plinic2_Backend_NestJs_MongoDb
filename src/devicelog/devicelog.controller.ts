@@ -20,7 +20,6 @@ export class DevicelogController {
     return this.devicelogService.monthlyTimeUserCount();
   }
 
-
   @Get()
   findAll() {
     return this.devicelogService.findAll();
